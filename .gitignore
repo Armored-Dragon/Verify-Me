@@ -1,3 +1,2 @@
 /node_modules/*
-/data/private_bot_data.json
-
+/data/*

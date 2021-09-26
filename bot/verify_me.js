@@ -28,23 +28,23 @@ async function signedIntoDiscord() {
 async function catchUpOnWork() {
 	const all_servers = await discord_client.guilds.fetch();
 	all_servers.forEach((guild) => checkServer(guild.id));
+}
 
-	async function checkServer(guild_id) {
-		log.debugs(`Checking server ${guild_id}`);
-		if (!settings[guild_id]) return addedToNewGuild(guild_id);
-		if (!discord_lib.guildIsSetup(guild_id)) return log.debugs(`${guild_id} is not set up, skipping.`);
+async function checkServer(guild_id) {
+	log.debugs(`Checking server ${guild_id}`);
+	if (!settings[guild_id]) return addedToNewGuild(guild_id);
+	if (!discord_lib.guildIsSetup(guild_id)) return log.debugs(`${guild_id} is not set up, skipping.`);
 
-		const guild = discord_client.guilds.cache.get(guild_id);
-		const guild_members = await guild.members.fetch();
-		const guild_verified_role = settings[guild_id].roles.verified;
+	const guild = discord_client.guilds.cache.get(guild_id);
+	const guild_members = await guild.members.fetch();
+	const guild_verified_role = settings[guild_id].roles.verified;
 
-		guild_members.forEach(checkVerificationStatus);
-		discord_lib.newSettingsPanel(guild);
+	guild_members.forEach(checkVerificationStatus);
+	discord_lib.newSettingsPanel(guild);
 
-		// TODO: Skip ourselves
-		function checkVerificationStatus(guild_member) {
-			if (!guild_member.roles.cache.has(guild_verified_role)) guildMemberAdd(guild_member);
-		}
+	function checkVerificationStatus(guild_member) {
+		if (guild_member.id === discord_client.user.id) return;
+		if (!guild_member.roles.cache.has(guild_verified_role)) guildMemberAdd(guild_member);
 	}
 }
 
@@ -101,6 +101,8 @@ async function handleInteraction(interaction) {
 }
 
 async function newGuildMessage(message) {
+	const messageIs = (message_content) => message.content.substring(0, message_content.length) === message_content;
+
 	// Is this a message aimed at us?
 	if (message.content.substring(0, 3) !== 'vm.') return;
 
@@ -118,26 +120,25 @@ async function newGuildMessage(message) {
 		if (message.content.substring(0, 6) === 'vm.ban') return discord_lib.denyUserFromVerificationChannel(member, 'BAN', message);
 	}
 
-
-
 	// Server settings
-	if (message.content.substring(0, 23) === 'vm.verificationcategory') serverSetup('categories', 'verification', message);
-	if (message.content.substring(0, 13) === 'vm.serverlogs') serverSetup('channels', 'server_logs', message);
-	if (message.content.substring(0, 17) === 'vm.serversettings') serverSetup('channels', 'server_settings', message);
-	if (message.content.substring(0, 15) === 'vm.verifiedrole') serverSetup('roles', 'verified', message);
-	if (message.content.substring(0, 10) === 'vm.modrole') serverSetup('roles', 'mod', message);
-	if (message.content.substring(0, 14) === 'vm.joinmessage') serverSetup('data', 'join_message', message, 'vm.joinmessage');
+	if (messageIs('vm.verificationcategory')) return serverSetup('categories', 'verification', message);
+	if (messageIs('vm.serverlogs')) return serverSetup('channels', 'server_logs', message);
+	if (messageIs('vm.serversettings')) return serverSetup('channels', 'server_settings', message);
+	if (messageIs('vm.verifiedrole')) return serverSetup('roles', 'verified', message);
+	if (messageIs('vm.modrole')) return serverSetup('roles', 'mod', message);
+	if (messageIs('vm.joinmessage')) return serverSetup('data', 'join_message', message, true);
 
+	// Re-check the guild.
+	// This is useful for when you just set up the server and want to re-run verifications on everyone.
+	if (messageIs('vm.restart')) checkServer(message.guild.id);
 
-	function serverSetup(category, setting, message, command) {
-		let data;
-		let item_id = /[0-9]{18}/.exec(message.content);
-		if (command) formatted_message = message.content.replace(command, '').trim();
+	function serverSetup(category, setting, message, is_text) {
+		let setting_value;
 
-		if (!item_id) data = formatted_message;
-		else data = item_id[0];
+		if (is_text) setting_value = message.content.replace(/vm.[0-z]*/g, '').trim();
+		else setting_value = /[0-9]{18}/.exec(message.content)[0];
 
-		settings[message.guild.id][category][setting] = data;
+		settings[message.guild.id][category][setting] = setting_value;
 		fs.writeBotSettingsForServers(settings);
 	}
-}
+};

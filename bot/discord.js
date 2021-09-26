@@ -1,8 +1,4 @@
 
-// TODO: Server panel embed creator
-// TODO: Server panel embed updater
-
-
 class discord {
 	constructor(discord, discord_client, settings) {
 		this.discord = discord;
@@ -32,10 +28,10 @@ class discord {
 		// Build the permissions for the verification channel
 		const user_permissions = [`VIEW_CHANNEL`, `SEND_MESSAGES`, `READ_MESSAGE_HISTORY`];
 		const permissions = [
-			{ id: everyone_role, deny: user_permissions },																		// Everyone by default can not see this channel
-			{ id: this.discord_client.user.id, allow: user_permissions },														// The bot can see the channel
-			{ id: this.settings[member.guild.id].roles.mod, allow: user_permissions },		// Mods can see the channel
-			{ id: member.id, allow: user_permissions }																					// The targeted user can view this channel
+			{ id: everyone_role, deny: user_permissions },                                     // Everyone by default can not see this channel
+			{ id: this.discord_client.user.id, allow: user_permissions },                      // The bot can see the channel
+			{ id: this.settings[member.guild.id].roles.mod, allow: user_permissions },         // Mods can see the channel
+			{ id: member.id, allow: user_permissions }                                         // The targeted user can view this channel
 		];
 
 		const channel = await member.guild.channels.create(`verify-${member.id}`, { parent: verification_category, type: `text`, permissionOverwrites: permissions });
