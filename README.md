@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/Armored-Dragon/Verify-Me">
-    <img src="https://raw.githubusercontent.com/Armored-Dragon/Verify-Me/master/img/logo.png" width="100">
+    <img src="https://raw.githubusercontent.com/Armored-Dragon/Verify-Me/master/img/logo.png" width="300">
   </a>
   <h2 align="center">Verify Me</h2>
   <p align="center">
@@ -28,12 +28,12 @@ You will create the Discord bot account, give Verify-Me the bot token, and you c
 Setup for this is very straight forward. This is assuming you have the latest version of Node.JS.
 
 1. Clone the repository into a folder on your machine
-2. Create a file under the /data directory titled "private_bot_data.json"
-3. In the new file, write "{ "token": "<Your Bot Token>" }  (Don't have a bot token? See <!-- TODO: Make WIKI Page -->)
+2. Create a file under the /data directory titled "private_bot_data.json" (If it does not already exist)
+3. In the new file, write `{ "token": "<Your Bot Token>" }`  (Don't have a bot token? See [this wiki page](https://github.com/Armored-Dragon/Verify-Me/wiki/CreateABot))
 4. From the root of the repository, execute the command "node bot/verify_me.js"
 
 With that last step, your bot should be fully functional and waiting for you to set it up for each server.
-Need help setting it up? Visit <!-- TODO: Make WIKI Page --> for more information
+Need help setting it up? Visit [this wiki page](https://github.com/Armored-Dragon/Verify-Me/wiki/CreateABot) for more information
 
 ## Support
 If you are having issues, give the [wiki](https://github.com/Armored-Dragon/Verify-Me/wiki) a quick look. You might find what you need!<br>

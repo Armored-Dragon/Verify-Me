@@ -82,16 +82,16 @@ function guildMemberRemove(member) {
 async function handleInteraction(interaction) {
 	const interaction_author = await interaction.guild.members.fetch(interaction.user.id);
 
+	// TODO: Find a way to quietly accept changes and edit message
+	interaction.deferReply();
+	interaction.deleteReply();
 	if (!interaction.isButton()) return;
 	if (!interaction_author.roles.cache.has(settings[interaction.guild.id].roles.mod) && interaction.guild.ownerId !== interaction.user.id) return;
 	if (interaction.customId === 'kick_on_join') changeSetting('kick_on_join', interaction.guildId);
 	if (interaction.customId === 'require_verification') changeSetting('require_verification', interaction.guildId);
 
-	const settings_channel = await interaction.guild.channels.fetch(settings[interaction.guildId].channels.server_settings);
-
 	const embed = discord_lib.serverSettingsEmbed(interaction.guild);
-	interaction.message.delete();
-	settings_channel.send({ embeds: [embed.embed], components: [embed.buttons] });
+	interaction.message.edit({ embeds: [embed.embed], components: [embed.buttons] });
 
 	function changeSetting(name) {
 		settings[interaction.guildId].settings[name] = !settings[interaction.guildId].settings[name];

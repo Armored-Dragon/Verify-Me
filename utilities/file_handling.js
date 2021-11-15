@@ -1,5 +1,6 @@
 const fs = require('graceful-fs');
 const dir = __dirname.replace('/utilities', '');
+const log = require('../utilities/logger').log;
 
 module.exports = { readBotSettingsForServers, writeBotSettingsForServers, createBotSettingsForNewServer };
 
@@ -34,6 +35,9 @@ async function createBotSettingsForNewServer(settings, guild_id) {
 		"settings": {
 			"kick_on_join": false,
 			"require_verification": false
+		},
+		"messages": {
+			"server_settings": ""
 		},
 		"data": {
 			"join_message": "Welcome to $servername, $user!"

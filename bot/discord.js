@@ -119,7 +119,6 @@ class discord {
 		const embed_settings = await this.serverSettingsEmbed(guild);
 		settings_channel.bulkDelete(await settings_channel.messages.fetch()); //Delete all of the messages in the settings channel 
 
-
 		settings_channel.send({ embeds: [embed_settings.embed], components: [embed_settings.buttons] });
 	}
 
