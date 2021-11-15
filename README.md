@@ -6,9 +6,9 @@
   <p align="center">
     Your personal Discord server security bot.
     <br />
-    <a href="https://github.com/Armored-Dragon/Steam-Account-Protection/wiki"><strong>View the Wiki</strong></a>
+    <a href="https://github.com/Armored-Dragon/Verify-Me/wiki"><strong>View the Wiki</strong></a>
 		 - 
-	  <a href="https://chrome.google.com/webstore/detail/steam-account-protection/klbjlhhdphemeeblhgdmibjjfmgalofi"><strong>Visit the Website</strong></a>
+	  <a href="https://armoreddragon.github.io/Verify-Me"><strong>Visit the Website</strong></a>
   </p>
 </p>
 
