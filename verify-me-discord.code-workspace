@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"cSpell.words": [
+			"joinmessage",
+			"modrole",
+			"serverlogs",
+			"serversettings",
+			"verificationcategory",
+			"verifiedrole"
+		]
+	}
+}
