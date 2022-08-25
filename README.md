@@ -12,6 +12,11 @@
   </p>
 </p>
 
+# Notice
+This repository has been archived as it has not recived any updates in a long while.
+This bot *should not* be used. If you wish to use it anyways, you do so at your own risk.
+
+
 ## Table of contents
 * [Overview](#overview)
 * [Setup](#setup)
